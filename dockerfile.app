@@ -1,6 +1,9 @@
 # 使用官方 Golang 镜像作为构建环境
 FROM golang:1.22 as builder
 
+# Go 代理
+ENV GOPROXY=https://goproxy.cn,direct
+
 # 设置工作目录
 WORKDIR /app
 
@@ -16,19 +19,12 @@ COPY . .
 
 # APP 名称变量
 ARG APP_NAME=stress-backend
-ENV ENV_APP_NAME=APP_NAME
+ENV APP_NAME=${APP_NAME}
 
 # 构建应用
-RUN CGO_ENABLED=0 GOOS=linux go build -o ${APP_NAME}
-
-# 使用 scratch 作为运行环境
-FROM scratch
-
-# 从构建者镜像中复制构建好的应用
-COPY --from=builder /app/${APP_NAME} /${APP_NAME}
+RUN CGO_ENABLED=0 GOOS=linux go build -o ${APP_NAME} ./cmd
 
 # 应用运行端口
 EXPOSE 8080
 
-# 运行应用
-CMD ["bash", "-c", "${ENV_APP_NAME}"]
+CMD ["sh", "-c", "./$APP_NAME"]

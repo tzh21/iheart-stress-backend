@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	handler "github.com/tzh21/iheart-stress-backend/internal"
+	"github.com/tzh21/iheart-stress-backend/internal/handler"
 )
 
 func main() {
