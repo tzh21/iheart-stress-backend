@@ -1,5 +1,5 @@
 # 使用官方 Golang 镜像作为构建环境
-FROM golang:1.22 as builder
+FROM golang:1.22
 
 # Go 代理
 ENV GOPROXY=https://goproxy.cn,direct
@@ -22,9 +22,11 @@ ARG APP_NAME=stress-backend
 ENV APP_NAME=${APP_NAME}
 
 # 构建应用
-RUN CGO_ENABLED=0 GOOS=linux go build -o ${APP_NAME} ./cmd
+RUN go build -o ${APP_NAME} ./cmd
+# RUN CGO_ENABLED=0 GOOS=linux go build -o ${APP_NAME} ./cmd
 
 # 应用运行端口
 EXPOSE 8080
 
-CMD ["sh", "-c", "./$APP_NAME"]
+# CMD ["sh", "-c", "./$APP_NAME"]
+CMD ["./stress-backend"]

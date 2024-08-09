@@ -1,5 +1,6 @@
 services:
   app:
+    image: tangzh2021/stress-backend:latest
     build:
       context: .
       dockerfile: dockerfile.app
@@ -17,6 +18,5 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
 volumes:
   postgres_data:
